@@ -33,6 +33,8 @@ set(DIRS
 add_library(base STATIC
 	${INCLUDE_DIR}/Utils.c
 	${INCLUDE_DIR}/Sort.c
+	${INCLUDE_DIR}/Any.c
+	${INCLUDE_DIR}/Args.c
 )
 
 target_include_directories(base PUBLIC ${DIRS})
@@ -42,7 +44,7 @@ set(EXECUTABLES
 	task1
 	task1_3
 	task2
-	task3
+	task3_v2
 	task4
 )
 

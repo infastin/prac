@@ -32,11 +32,18 @@ int main(int argc, char *argv[])
 
 		if (c != EOF)
 		{
-			char *sym = inttostr(c, 16, NULL);
+			char *sym = inttostr(c, 16, NULL, NULL);
+			int sym_len = strlen(sym);
 
-			if (strlen(sym) == 1)
-				putchar('0');
-			printf("%s ", sym);
+			if (sym_len == 0)
+				printf("00 ");
+			else
+			{
+				if (sym_len == 1)
+					putchar('0');
+
+				printf("%s ", sym);
+			}
 
 			free(sym);
 		}

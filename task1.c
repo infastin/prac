@@ -27,22 +27,55 @@ void task1_1(void)
 		while((c = getchar()) != '\n' && c != EOF);
 	}
 
-	int err;
-	int res = strtoint(str, base, &err);
-	if (err == 0)
+	char *err_str;
+	int err_code;
+
+	int res = strtoint(str, base, &err_code, &err_str);
+	if (err_code == 0)
 		printf("Result: %d\n", res);
+	else if (err_code != 0 && err_str != NULL)
+	{
+		printf("%s!\n", err_str);
+		free(err_str);
+	}
 	else
 		printf("An error occured!\n");
+
+	free(str);
 }
 
 void task1_2(void)
 {
+	char *str;
+
 	int number;
 	int base;
+	
+	int err_code_in;
+	char *err_str_in;
 
 	printf("Enter number:\n");
-	while (scanf("%d", &number) != 1)
+	while (1)
 	{
+		int serr = scanf("%m[^\n]s", &str);
+
+		if (serr == 1)
+		{
+			number = strtoint(str, 10, &err_code_in, &err_str_in);
+
+			if (err_code_in == 0)
+			{
+				free(str);
+				break;
+			}
+		}
+
+		if (err_str_in != NULL)
+		{
+			printf("%s!\n", err_str_in);
+			free(err_str_in);
+		}
+
 		printf("Input error, re-enter!\n");
 
 		int c;
@@ -58,10 +91,17 @@ void task1_2(void)
 		while((c = getchar()) != '\n' && c != EOF);
 	}
 
-	int err;
-	char *res = inttostr(number, base, &err);
-	if (err == 0)
+	int err_code_out;
+	char *err_str_out;
+
+	char *res = inttostr(number, base, &err_code_out, &err_str_out);
+	if (err_code_out == 0)
 		printf("Result: %s\n", res);
+	else if (err_code_out != 0 && err_str_out != NULL)
+	{
+		printf("%s!\n", err_str_out);
+		free(err_str_out);
+	}
 	else
 		printf("An error occured!\n");
 }
