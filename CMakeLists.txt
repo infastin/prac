@@ -44,6 +44,7 @@ set(EXECUTABLES
 	task1
 	task1_3
 	task2
+	task2_v2
 	task3_v2
 	task4
 )

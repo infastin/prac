@@ -212,9 +212,15 @@ unsigned int parse_index(char *p, char **np)
 
 	while (*p != '}') 
 	{
+		if (*p == '\0')
+		{
+			printf("Not expected end of the value in the index!\n");
+			exit(EXIT_FAILURE);
+		}
+
 		if (!isdigit(*p))
 		{
-			printf("Not expected '%c' character in index!\n", *p);
+			printf("Not expected '%c' character in the index!\n", *p);
 			exit(EXIT_FAILURE);
 		}
 
@@ -242,15 +248,21 @@ void parse_range(char *p, char **np, unsigned int *_idx1, unsigned int *_idx2)
 
 	while (*p != '-') 
 	{
+		if (*p == '\0')
+		{
+			printf("Not expected end of the value in the first index of range!\n");
+			exit(EXIT_FAILURE);
+		}
+
 		if (!isdigit(*p))
 		{
-			printf("Not expected '%c' character in first index of range!\n", *p);
+			printf("Not expected '%c' character in the first index of range!\n", *p);
 			exit(EXIT_FAILURE);
 		}
 
 		if ((idx1 > UINT_MAX / 10) || (idx1 * 10 > UINT_MAX - (*p - '0')))
 		{
-			printf("First index (unsigned integer) in range of weights overflow!\n");
+			printf("The first index (unsigned integer) in range of weights overflow!\n");
 			exit(EXIT_FAILURE);
 		}
 
@@ -264,15 +276,21 @@ void parse_range(char *p, char **np, unsigned int *_idx1, unsigned int *_idx2)
 
 	while (*p != ']') 
 	{
+		if (*p == '\0')
+		{
+			printf("Not expected end of the value in the second index of range!\n");
+			exit(EXIT_FAILURE);
+		}
+
 		if (!isdigit(*p))
 		{
-			printf("Not expected '%c' character in second index of range!\n", *p);
+			printf("Not expected '%c' character in the second index of range!\n", *p);
 			exit(EXIT_FAILURE);
 		}
 
 		if ((idx2 > UINT_MAX / 10) || (idx2 * 10 > UINT_MAX - (*p - '0')))
 		{
-			printf("Second index (unsigned integer) in range of weights overflow!\n");
+			printf("The second index (unsigned integer) in range of weights overflow!\n");
 			exit(EXIT_FAILURE);
 		}
 
@@ -284,7 +302,7 @@ void parse_range(char *p, char **np, unsigned int *_idx1, unsigned int *_idx2)
 
 	if (_idx1 > _idx2)
 	{
-		printf("First index in range of weights can't be greater than second index!\n");
+		printf("The first index in range of weights can't be greater than the second index!\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -618,6 +636,12 @@ int main(int argc, char *argv[])
 				if (idx_flag + range_flag != 0 && *pww++ != ':')
 				{
 					printf("Expected ':' after closing bracket!\n");
+					exit(EXIT_FAILURE);
+				}
+
+				if (*pww == '\0')
+				{
+					printf("Expected weight!\n");
 					exit(EXIT_FAILURE);
 				}
 

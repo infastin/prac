@@ -3,7 +3,7 @@
 
 #include "Any.h"
 
-#define INIT_ARGR ((argr_t){NULL, NULL, 0})
+#define INIT_ARGR ((argr_t){NULL, NULL, NULL, 0})
 
 typedef enum
 {
