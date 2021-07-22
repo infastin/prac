@@ -30,7 +30,7 @@ int read_block(FILE *file, char *block, int len)
 	return i;
 }
 
-#define BLOCK_SIZE 512
+#define BLOCK_SIZE 2
 
 int main(int argc, char *argv[])
 {
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 	in = fopen("text2.txt", "r");
 	out = fopen("text3.txt", "w");
 
-	const char *find = "Lorem ipsum";
+	const char *find = "aab";
 	const char *replace = "Fish";
 	const char *f = find;
 
@@ -63,19 +63,47 @@ int main(int argc, char *argv[])
 			{
 				if (f != find)
 				{
-					const char *p = find;
-					while (p != f) 
+					const char *s = find;   // Substring of "find", where first character of substring is printed
+					const char *p = find;   // Pointer to "find"
+					const char *sw = s + 1; // "s" without first character
+
+					fputc(*s, out);
+
+					while (1) 
 					{
-						fputc(*p, out);
+						if (sw == f)
+						{
+							f--;
+
+							if (*f != *b)
+							{
+								fputc(*b, out);
+								f = find;
+							}
+
+							break;
+						}
+
+						if (*p != *sw)
+						{
+							fputc(*++s, out);
+
+							p = find;
+							sw = s + 1;
+							
+							continue;
+						}
+
 						p++;
+						sw++;
 					}
 
-					f = find;
 				}
-
-				fputc(*b, out);
+				else 
+					fputc(*b, out);
 			}
-			else if (*++f == '\0')
+			
+			if (*b == *f && *++f == '\0')
 			{
 				fputs(replace, out);
 				f = find;
